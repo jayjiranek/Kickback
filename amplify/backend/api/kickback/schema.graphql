@@ -1,0 +1,84 @@
+enum AttachmentType {
+  IMAGE
+  VIDEO
+}
+
+type Attachment @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  storageKey: String!
+  type: AttachmentType!
+  width: Int
+  height: Int
+  duration: Int
+  messageID: ID! @index(name: "byMessage")
+  chatroomID: ID! @index(name: "byChatRoom")
+}
+
+type ChatRoomVote @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  voteType: String!
+  createdAt: AWSDateTime!
+  expiresAt: AWSDateTime!
+  voteCreatedBy: [String!]!
+  userToBeRemoved: String
+  newChatTitle: String
+  newChatImage: AWSURL
+  numVotes: Int
+  numVotesNeeded: Int
+  chatroomID: ID! @index(name: "byChatRoom")
+}
+
+type Category @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  categoryName: String!
+  categoryShortDescription: String!
+  categoryLongDescription: String!
+  categoryAvatarImage: String!
+  categoryBannerImage: String!
+  RoomTopics: [RoomTopic] @hasMany(indexName: "byRoomCategory", fields: ["id"])
+}
+
+type RoomTopic @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  topicName: String!
+  categoryID: ID! @index(name: "byRoomCategory")
+  topicAvatarImage: String!
+  ChatRooms: [ChatRoom] @hasMany(indexName: "byRoomTopic", fields: ["id"])
+}
+
+type ChatRoom @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  users: [User] @manyToMany(relationName: "UserChatRoom")
+  LastMessage: Message @hasOne
+  chatName: String!
+  chatImage: String
+  numMembers: Int
+  maxNumMembers: String
+  Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  roomtopicID: ID! @index(name: "byRoomTopic")
+  ChatRoomVotes: [ChatRoomVote]
+    @hasMany(indexName: "byChatRoom", fields: ["id"])
+}
+
+type Message @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  text: String!
+  createdAt: AWSDateTime
+  userSenderID: ID! @index(name: "byUser")
+  chatroomID: ID!
+    @index(
+      name: "byChatRoom"
+      sortKeyFields: ["createdAt"]
+      queryField: "listMessagesByChatRoom"
+    )
+  images: [String]
+  Attachments: [Attachment] @hasMany(indexName: "byMessage", fields: ["id"])
+}
+
+type User @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  username: String
+  profileImage: String
+  ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+}

@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3kickbackstorage5ee916fe",
+  "bucketName": "kickback-storage-5ee916fe",
+  "policyUUID": "1b3212a5",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}
