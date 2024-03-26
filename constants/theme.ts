@@ -1,7 +1,10 @@
 const COLORS = {
-  primary: "#7852A9",
+  primary: "#AC94F4",
   secondary: "#B284BE",
   tertiary: "#D7BFDC",
+
+  blueishPurple: "#232377",
+  linkColor: "#007FFF",
 
   black: "#121212",
   black2: "#0D0D0D",
@@ -10,7 +13,7 @@ const COLORS = {
   darkDetailsBackground: "#2d2d30",
   darkerBackground: "#252526",
 
-  placeholder: "#2d2d30",
+  placeholder: "#7852A9",
 
   grey: "#363636",
   lightGrey: "#7f7f7f",
@@ -20,6 +23,7 @@ const COLORS = {
   lightWhite: "#FAFAFC",
 
   green: "#33B864",
+  red: "#ED2939",
 };
 
 const FONT = {
@@ -30,6 +34,7 @@ const FONT = {
 };
 
 const SIZES = {
+  xxSmall: 8,
   xSmall: 10,
   small: 12,
   medium: 16,

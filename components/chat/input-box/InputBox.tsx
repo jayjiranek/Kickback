@@ -16,7 +16,7 @@ import {
   createAttachment,
 } from "../../../src/graphql/mutations";
 import * as ImagePicker from "expo-image-picker";
-import { COLORS } from "../../../constants";
+import { COLORS, SIZES, FONT } from "../../../constants";
 
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
@@ -28,8 +28,6 @@ const InputBox = ({ chatroom }) => {
 
   const onSend = async () => {
     const authUser = await Auth.currentAuthenticatedUser();
-
-    console.log(authUser);
 
     const newMessage = {
       chatroomID: chatroom.id,
@@ -63,8 +61,6 @@ const InputBox = ({ chatroom }) => {
   };
 
   const addAttachment = async (file: any, messageID: string) => {
-    console.log(messageID);
-    console.log(file);
     const types = {
       image: "IMAGE",
       video: "VIDEO",
@@ -105,9 +101,6 @@ const InputBox = ({ chatroom }) => {
     try {
       const response = await fetch(fileUri);
       const blob = await response.blob();
-      console.log("here we are");
-      const key = `${uuidv4()}.png`;
-      console.log("made it here");
 
       await Storage.put(key, blob, {
         contentType: "image/png", // optional
@@ -128,79 +121,81 @@ const InputBox = ({ chatroom }) => {
 
   return (
     <>
-      <SafeAreaView style={styles.container} edges={["bottom"]}>
-        <AntDesign
-          name="camera"
-          size={24}
-          color={COLORS.tertiary}
-          onPress={pickImage}
-        />
-        <View style={styles.inputContainer}>
-          {files.length > 0 && (
-            <View style={styles.attachmentsContainer}>
-              <FlatList
-                data={files}
-                horizontal
-                renderItem={({ item }) => (
-                  <>
-                    <Image
-                      source={{ uri: item.uri }}
-                      style={styles.selectedImage}
-                      resizeMode="contain"
-                    />
+      {files.length > 0 && (
+        <View style={styles.attachmentsContainer}>
+          <FlatList
+            data={files}
+            horizontal
+            renderItem={({ item }) => (
+              <>
+                <Image
+                  source={{ uri: item.uri }}
+                  style={styles.selectedImage}
+                  resizeMode="contain"
+                />
 
-                    {progresses[item.uri] && (
-                      <View
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          backgroundColor: "#8c8c8cAA",
-                          padding: 5,
-                          borderRadius: 50,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: COLORS.lightWhite,
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {(progresses[item.uri] * 100).toFixed(0)} %
-                        </Text>
-                      </View>
-                    )}
-
-                    <MaterialIcons
-                      name="highlight-remove"
-                      onPress={() =>
-                        setFiles((existingFiles) =>
-                          existingFiles.filter((file) => file !== item)
-                        )
-                      }
-                      size={20}
-                      color="grey"
-                      style={styles.removeSelectedImage}
-                    />
-                  </>
+                {progresses[item.uri] && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      backgroundColor: "#8c8c8cAA",
+                      padding: 5,
+                      borderRadius: 50,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: COLORS.lightWhite,
+                        fontFamily: FONT.bold,
+                      }}
+                    >
+                      {(progresses[item.uri] * 100).toFixed(0)} %
+                    </Text>
+                  </View>
                 )}
-              />
-            </View>
-          )}
-          <TextInput
-            value={text}
-            onChangeText={setText}
-            style={styles.input}
-            placeholder="Type your message..."
+
+                <MaterialIcons
+                  name="highlight-remove"
+                  onPress={() =>
+                    setFiles((existingFiles) =>
+                      existingFiles.filter((file) => file !== item)
+                    )
+                  }
+                  size={20}
+                  color={COLORS.darkDetailsBackground}
+                  style={styles.removeSelectedImage}
+                />
+              </>
+            )}
           />
         </View>
-        <MaterialIcons
-          name="send"
-          size={16}
-          color={COLORS.lightWhite}
-          style={styles.send}
-          onPress={onSend}
+      )}
+
+      <SafeAreaView edges={["bottom"]} style={styles.container}>
+        <AntDesign
+          onPress={pickImage}
+          name="camera"
+          size={26}
+          color={COLORS.lighterGrey}
         />
+
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          style={styles.input}
+          placeholder="Type your message..."
+        />
+        {text != "" && (
+          <MaterialIcons
+            onPress={onSend}
+            style={styles.send}
+            name="send"
+            size={18}
+            color={COLORS.lightWhite}
+          />
+        )}
       </SafeAreaView>
     </>
   );
@@ -209,29 +204,26 @@ const InputBox = ({ chatroom }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
     padding: 5,
-    paddingHorizontal: 5,
+    paddingHorizontal: SIZES.xSmall,
+    marginHorizontal: SIZES.xxSmall,
     backgroundColor: COLORS.darkBackground,
   },
-  inputContainer: {
-    flex: 1,
-    borderRadius: 5,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: COLORS.lightGrey,
-    flexDirection: "column",
-    marginHorizontal: 10,
-  },
   input: {
-    padding: 5,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderTopColor: COLORS.lightGrey,
+    flex: 1,
+    backgroundColor: COLORS.darkBackground,
+    paddingVertical: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+    marginHorizontal: SIZES.xSmall,
+    borderRadius: 50,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: COLORS.lighterGrey,
     color: COLORS.lightWhite,
   },
   send: {
-    backgroundColor: COLORS.primary,
-    padding: 7,
+    backgroundColor: COLORS.blueishPurple,
+    padding: SIZES.xxSmall,
     borderRadius: 15,
     overflow: "hidden",
   },

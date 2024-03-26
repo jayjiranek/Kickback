@@ -37,10 +37,6 @@ export const listMessagesByChatRoom = /* GraphQL */ `
             updatedAt
           }
         }
-        userSender {
-          username
-          profileImage
-        }
         updatedAt
       }
       nextToken

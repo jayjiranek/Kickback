@@ -2,15 +2,10 @@ import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES, FONT } from "../../../constants";
 
-const AccountListItemCard = (
-  itemName: string,
-  iconName: any,
-  handlePress: any
-) => {
+const AccountListItemCard = (itemName: string) => {
   return (
-    <Pressable onPress={handlePress}>
+    <Pressable onPress={() => {}}>
       <View style={styles.container}>
-        <Ionicons name={iconName} size={30} color={COLORS.primary} />
         <Text style={styles.itemNameText}>{itemName}</Text>
       </View>
     </Pressable>

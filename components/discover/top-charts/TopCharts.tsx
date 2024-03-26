@@ -67,7 +67,7 @@ export default TopCharts;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginVertical: SIZES.medium,
+    marginBottom: SIZES.medium,
   },
   tabsContainer: {
     width: "100%",

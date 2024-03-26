@@ -77,7 +77,7 @@ export default TrendingGroups;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginVertical: SIZES.medium,
+    marginTop: SIZES.medium,
   },
   tabsContainer: {
     width: "100%",

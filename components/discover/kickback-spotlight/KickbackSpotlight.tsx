@@ -19,10 +19,8 @@ const KickbackSpotlight = () => {
 
     const response: any = await API.graphql(graphqlOperation(listCategories));
 
-    console.log(response);
     const allCategories: any = response.data.listCategories.items;
     setCategories(allCategories);
-    console.log(categories);
     setLoading(false);
   };
 
@@ -73,7 +71,7 @@ const KickbackSpotlight = () => {
                 transform: [{ scale: translate }],
               }}
             >
-              <SpotlightGroupCard topic={topic} />
+              <SpotlightGroupCard topic={topic} key={topic.id} />
             </Animated.View>
           );
         })}

@@ -7,7 +7,8 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import { Auth, Storage } from "aws-amplify";
+import { API, Auth, Storage, graphqlOperation } from "aws-amplify";
+import { getUser } from "./messageUserQuery";
 import dayjs from "dayjs";
 // implement dayjs here
 
@@ -17,16 +18,21 @@ import { COLORS, FONT, SIZES } from "../../../constants";
 
 const Message = ({ message }) => {
   const [isMe, setIsMe] = useState(false);
+  const [userSender, setUserSender] = useState([]);
   const [downloadAttachments, setDownloadedAttachments] = useState([]);
 
   const { width } = useWindowDimensions();
 
-  console.log(message);
   useEffect(() => {
     const isMyMessage = async () => {
       const authUser = await Auth.currentAuthenticatedUser();
 
       setIsMe(message.userSenderID === authUser.attributes.sub);
+
+      // fetch the user
+      API.graphql(graphqlOperation(getUser, { id: message.userSenderID })).then(
+        (result) => setUserSender(result.data.getUser)
+      );
     };
 
     isMyMessage();
@@ -63,7 +69,6 @@ const Message = ({ message }) => {
           style={[
             styles.container,
             {
-              backgroundColor: COLORS.primary,
               alignSelf: "flex-end",
             },
           ]}
@@ -78,13 +83,15 @@ const Message = ({ message }) => {
               />
             </View>
           )}
-          <Text style={styles.messageText}>{message.text}</Text>
+          <View style={styles.myMessageTextContainer}>
+            <Text style={styles.messageText}>{message.text}</Text>
+          </View>
         </View>
       ) : (
         <View style={{ flexDirection: "row" }}>
           <View style={styles.senderImageContainer}>
             <Image
-              source={{ uri: message.userSender.profileImage }}
+              source={{ uri: userSender.profileImage }}
               style={styles.senderImage}
               resizeMode="cover"
             />
@@ -98,20 +105,18 @@ const Message = ({ message }) => {
               },
             ]}
           >
-            <Text style={styles.nameContainer}>
-              @{message.userSender.username}
-            </Text>
-            <View style={styles.messageTextContainer}>
-              {downloadAttachments.length > 0 && (
-                <View style={[{ width: imageContainerWidth }, styles.images]}>
-                  <ImageAttachments attachments={imageAttachments} />
+            <Text style={styles.nameContainer}>@{userSender.username}</Text>
+            {downloadAttachments.length > 0 && (
+              <View style={[{ width: imageContainerWidth }, styles.images]}>
+                <ImageAttachments attachments={imageAttachments} />
 
-                  <VideoAttachments
-                    attachments={videoAttachments}
-                    width={imageContainerWidth}
-                  />
-                </View>
-              )}
+                <VideoAttachments
+                  attachments={videoAttachments}
+                  width={imageContainerWidth}
+                />
+              </View>
+            )}
+            <View style={styles.messageTextContainer}>
               <Text style={styles.messageText}>{message.text}</Text>
             </View>
           </View>
@@ -124,14 +129,20 @@ const Message = ({ message }) => {
 const styles = StyleSheet.create({
   container: {
     margin: 5,
+    marginVertical: SIZES.xxSmall - 2,
     paddingHorizontal: 5,
-    borderRadius: 10,
+    borderRadius: SIZES.medium,
     maxWidth: "80%",
   },
   messageTextContainer: {
-    borderRadius: 10,
+    borderRadius: SIZES.medium,
     backgroundColor: COLORS.grey,
-    paddingHorizontal: 10,
+    paddingHorizontal: SIZES.small,
+  },
+  myMessageTextContainer: {
+    backgroundColor: COLORS.blueishPurple,
+    paddingHorizontal: SIZES.small,
+    borderRadius: SIZES.medium,
   },
   senderImageContainer: {
     width: 45,
@@ -148,12 +159,13 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     fontFamily: FONT.medium,
-    color: COLORS.lightGrey,
+    color: COLORS.lighterGrey,
     fontSize: SIZES.small + 2,
     marginBottom: 2,
+    marginLeft: SIZES.xSmall,
   },
   messageText: {
-    fontFamily: FONT.regular,
+    fontFamily: FONT.medium,
     fontSize: SIZES.medium,
     color: COLORS.lightWhite,
     marginVertical: 5,

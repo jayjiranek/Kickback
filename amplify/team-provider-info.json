@@ -21,6 +21,14 @@
         "kickbackPostConfirmation": {
           "deploymentBucketName": "amplify-kickback-staging-190611-deployment",
           "s3Key": "amplify-builds/kickbackPostConfirmation-755346686b2f624d6d50-build.zip"
+        },
+        "kbFindChatRoomForUserWithRoomTopic": {
+          "deploymentBucketName": "amplify-kickback-staging-190611-deployment",
+          "s3Key": "amplify-builds/kbFindChatRoomForUserWithRoomTopic-505545467130647a5755-build.zip"
+        },
+        "kickbackHandleUserVote": {
+          "deploymentBucketName": "amplify-kickback-staging-190611-deployment",
+          "s3Key": "amplify-builds/kickbackHandleUserVote-422b3454415a33446c39-build.zip"
         }
       },
       "api": {

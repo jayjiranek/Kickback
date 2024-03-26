@@ -58,69 +58,6 @@ export const onDeleteAttachment = /* GraphQL */ `
     }
   }
 `;
-export const onCreateChatRoomVote = /* GraphQL */ `
-  subscription OnCreateChatRoomVote(
-    $filter: ModelSubscriptionChatRoomVoteFilterInput
-  ) {
-    onCreateChatRoomVote(filter: $filter) {
-      id
-      voteType
-      createdAt
-      expiresAt
-      voteCreatedBy
-      userToBeRemoved
-      newChatTitle
-      newChatImage
-      numVotes
-      numVotesNeeded
-      chatroomID
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateChatRoomVote = /* GraphQL */ `
-  subscription OnUpdateChatRoomVote(
-    $filter: ModelSubscriptionChatRoomVoteFilterInput
-  ) {
-    onUpdateChatRoomVote(filter: $filter) {
-      id
-      voteType
-      createdAt
-      expiresAt
-      voteCreatedBy
-      userToBeRemoved
-      newChatTitle
-      newChatImage
-      numVotes
-      numVotesNeeded
-      chatroomID
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteChatRoomVote = /* GraphQL */ `
-  subscription OnDeleteChatRoomVote(
-    $filter: ModelSubscriptionChatRoomVoteFilterInput
-  ) {
-    onDeleteChatRoomVote(filter: $filter) {
-      id
-      voteType
-      createdAt
-      expiresAt
-      voteCreatedBy
-      userToBeRemoved
-      newChatTitle
-      newChatImage
-      numVotes
-      numVotesNeeded
-      chatroomID
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const onCreateCategory = /* GraphQL */ `
   subscription OnCreateCategory($filter: ModelSubscriptionCategoryFilterInput) {
     onCreateCategory(filter: $filter) {
@@ -130,12 +67,16 @@ export const onCreateCategory = /* GraphQL */ `
       categoryLongDescription
       categoryAvatarImage
       categoryBannerImage
+      categoryGroupsCount
       RoomTopics {
         items {
           id
           topicName
           categoryID
           topicAvatarImage
+          topicDescription
+          defaultTopicChatName
+          countGroupsNumber
           createdAt
           updatedAt
           __typename
@@ -158,12 +99,16 @@ export const onUpdateCategory = /* GraphQL */ `
       categoryLongDescription
       categoryAvatarImage
       categoryBannerImage
+      categoryGroupsCount
       RoomTopics {
         items {
           id
           topicName
           categoryID
           topicAvatarImage
+          topicDescription
+          defaultTopicChatName
+          countGroupsNumber
           createdAt
           updatedAt
           __typename
@@ -186,12 +131,16 @@ export const onDeleteCategory = /* GraphQL */ `
       categoryLongDescription
       categoryAvatarImage
       categoryBannerImage
+      categoryGroupsCount
       RoomTopics {
         items {
           id
           topicName
           categoryID
           topicAvatarImage
+          topicDescription
+          defaultTopicChatName
+          countGroupsNumber
           createdAt
           updatedAt
           __typename
@@ -214,6 +163,9 @@ export const onCreateRoomTopic = /* GraphQL */ `
       topicName
       categoryID
       topicAvatarImage
+      topicDescription
+      defaultTopicChatName
+      countGroupsNumber
       ChatRooms {
         items {
           id
@@ -225,6 +177,19 @@ export const onCreateRoomTopic = /* GraphQL */ `
           createdAt
           updatedAt
           chatRoomLastMessageId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      BreakingNewsAlerts {
+        items {
+          id
+          text
+          createdAt
+          articleLink
+          roomtopicID
+          updatedAt
           __typename
         }
         nextToken
@@ -245,6 +210,9 @@ export const onUpdateRoomTopic = /* GraphQL */ `
       topicName
       categoryID
       topicAvatarImage
+      topicDescription
+      defaultTopicChatName
+      countGroupsNumber
       ChatRooms {
         items {
           id
@@ -256,6 +224,19 @@ export const onUpdateRoomTopic = /* GraphQL */ `
           createdAt
           updatedAt
           chatRoomLastMessageId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      BreakingNewsAlerts {
+        items {
+          id
+          text
+          createdAt
+          articleLink
+          roomtopicID
+          updatedAt
           __typename
         }
         nextToken
@@ -276,6 +257,9 @@ export const onDeleteRoomTopic = /* GraphQL */ `
       topicName
       categoryID
       topicAvatarImage
+      topicDescription
+      defaultTopicChatName
+      countGroupsNumber
       ChatRooms {
         items {
           id
@@ -287,6 +271,19 @@ export const onDeleteRoomTopic = /* GraphQL */ `
           createdAt
           updatedAt
           chatRoomLastMessageId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      BreakingNewsAlerts {
+        items {
+          id
+          text
+          createdAt
+          articleLink
+          roomtopicID
+          updatedAt
           __typename
         }
         nextToken
@@ -346,21 +343,35 @@ export const onCreateChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
+      UserActivity {
+        items {
+          id
+          createdAt
+          chatroomID
+          activityType
+          updatedAt
+          userChatActivityUserIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
       roomtopicID
-      ChatRoomVotes {
+      Votes {
         items {
           id
           voteType
           createdAt
           expiresAt
-          voteCreatedBy
-          userToBeRemoved
           newChatTitle
           newChatImage
-          numVotes
-          numVotesNeeded
+          numYesVotesNeeded
+          numYesVotes
+          numNoVotes
           chatroomID
           updatedAt
+          voteVoteCreationUserId
+          voteUserToBeRemovedId
           __typename
         }
         nextToken
@@ -421,21 +432,35 @@ export const onUpdateChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
+      UserActivity {
+        items {
+          id
+          createdAt
+          chatroomID
+          activityType
+          updatedAt
+          userChatActivityUserIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
       roomtopicID
-      ChatRoomVotes {
+      Votes {
         items {
           id
           voteType
           createdAt
           expiresAt
-          voteCreatedBy
-          userToBeRemoved
           newChatTitle
           newChatImage
-          numVotes
-          numVotesNeeded
+          numYesVotesNeeded
+          numYesVotes
+          numNoVotes
           chatroomID
           updatedAt
+          voteVoteCreationUserId
+          voteUserToBeRemovedId
           __typename
         }
         nextToken
@@ -496,21 +521,35 @@ export const onDeleteChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
+      UserActivity {
+        items {
+          id
+          createdAt
+          chatroomID
+          activityType
+          updatedAt
+          userChatActivityUserIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
       roomtopicID
-      ChatRoomVotes {
+      Votes {
         items {
           id
           voteType
           createdAt
           expiresAt
-          voteCreatedBy
-          userToBeRemoved
           newChatTitle
           newChatImage
-          numVotes
-          numVotesNeeded
+          numYesVotesNeeded
+          numYesVotes
+          numNoVotes
           chatroomID
           updatedAt
+          voteVoteCreationUserId
+          voteUserToBeRemovedId
           __typename
         }
         nextToken
@@ -612,6 +651,426 @@ export const onDeleteMessage = /* GraphQL */ `
         __typename
       }
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateBreakingNewAlert = /* GraphQL */ `
+  subscription OnCreateBreakingNewAlert(
+    $filter: ModelSubscriptionBreakingNewAlertFilterInput
+  ) {
+    onCreateBreakingNewAlert(filter: $filter) {
+      id
+      text
+      createdAt
+      articleLink
+      roomtopicID
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateBreakingNewAlert = /* GraphQL */ `
+  subscription OnUpdateBreakingNewAlert(
+    $filter: ModelSubscriptionBreakingNewAlertFilterInput
+  ) {
+    onUpdateBreakingNewAlert(filter: $filter) {
+      id
+      text
+      createdAt
+      articleLink
+      roomtopicID
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteBreakingNewAlert = /* GraphQL */ `
+  subscription OnDeleteBreakingNewAlert(
+    $filter: ModelSubscriptionBreakingNewAlertFilterInput
+  ) {
+    onDeleteBreakingNewAlert(filter: $filter) {
+      id
+      text
+      createdAt
+      articleLink
+      roomtopicID
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateVote = /* GraphQL */ `
+  subscription OnCreateVote($filter: ModelSubscriptionVoteFilterInput) {
+    onCreateVote(filter: $filter) {
+      id
+      voteType
+      createdAt
+      expiresAt
+      voteCreationUser {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      userToBeRemoved {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      newChatTitle
+      newChatImage
+      numYesVotesNeeded
+      numYesVotes
+      numNoVotes
+      chatroomID
+      userVotes {
+        items {
+          id
+          createdAt
+          voteID
+          userVoteDecision
+          updatedAt
+          userVoteUserVoterIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      updatedAt
+      voteVoteCreationUserId
+      voteUserToBeRemovedId
+      __typename
+    }
+  }
+`;
+export const onUpdateVote = /* GraphQL */ `
+  subscription OnUpdateVote($filter: ModelSubscriptionVoteFilterInput) {
+    onUpdateVote(filter: $filter) {
+      id
+      voteType
+      createdAt
+      expiresAt
+      voteCreationUser {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      userToBeRemoved {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      newChatTitle
+      newChatImage
+      numYesVotesNeeded
+      numYesVotes
+      numNoVotes
+      chatroomID
+      userVotes {
+        items {
+          id
+          createdAt
+          voteID
+          userVoteDecision
+          updatedAt
+          userVoteUserVoterIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      updatedAt
+      voteVoteCreationUserId
+      voteUserToBeRemovedId
+      __typename
+    }
+  }
+`;
+export const onDeleteVote = /* GraphQL */ `
+  subscription OnDeleteVote($filter: ModelSubscriptionVoteFilterInput) {
+    onDeleteVote(filter: $filter) {
+      id
+      voteType
+      createdAt
+      expiresAt
+      voteCreationUser {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      userToBeRemoved {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      newChatTitle
+      newChatImage
+      numYesVotesNeeded
+      numYesVotes
+      numNoVotes
+      chatroomID
+      userVotes {
+        items {
+          id
+          createdAt
+          voteID
+          userVoteDecision
+          updatedAt
+          userVoteUserVoterIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      updatedAt
+      voteVoteCreationUserId
+      voteUserToBeRemovedId
+      __typename
+    }
+  }
+`;
+export const onCreateUserVote = /* GraphQL */ `
+  subscription OnCreateUserVote($filter: ModelSubscriptionUserVoteFilterInput) {
+    onCreateUserVote(filter: $filter) {
+      id
+      createdAt
+      voteID
+      userVoteDecision
+      userVoterID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      updatedAt
+      userVoteUserVoterIDId
+      __typename
+    }
+  }
+`;
+export const onUpdateUserVote = /* GraphQL */ `
+  subscription OnUpdateUserVote($filter: ModelSubscriptionUserVoteFilterInput) {
+    onUpdateUserVote(filter: $filter) {
+      id
+      createdAt
+      voteID
+      userVoteDecision
+      userVoterID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      updatedAt
+      userVoteUserVoterIDId
+      __typename
+    }
+  }
+`;
+export const onDeleteUserVote = /* GraphQL */ `
+  subscription OnDeleteUserVote($filter: ModelSubscriptionUserVoteFilterInput) {
+    onDeleteUserVote(filter: $filter) {
+      id
+      createdAt
+      voteID
+      userVoteDecision
+      userVoterID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      updatedAt
+      userVoteUserVoterIDId
+      __typename
+    }
+  }
+`;
+export const onCreateUserChatActivity = /* GraphQL */ `
+  subscription OnCreateUserChatActivity(
+    $filter: ModelSubscriptionUserChatActivityFilterInput
+  ) {
+    onCreateUserChatActivity(filter: $filter) {
+      id
+      createdAt
+      chatroomID
+      userID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      activityType
+      updatedAt
+      userChatActivityUserIDId
+      __typename
+    }
+  }
+`;
+export const onUpdateUserChatActivity = /* GraphQL */ `
+  subscription OnUpdateUserChatActivity(
+    $filter: ModelSubscriptionUserChatActivityFilterInput
+  ) {
+    onUpdateUserChatActivity(filter: $filter) {
+      id
+      createdAt
+      chatroomID
+      userID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      activityType
+      updatedAt
+      userChatActivityUserIDId
+      __typename
+    }
+  }
+`;
+export const onDeleteUserChatActivity = /* GraphQL */ `
+  subscription OnDeleteUserChatActivity(
+    $filter: ModelSubscriptionUserChatActivityFilterInput
+  ) {
+    onDeleteUserChatActivity(filter: $filter) {
+      id
+      createdAt
+      chatroomID
+      userID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      activityType
+      updatedAt
+      userChatActivityUserIDId
       __typename
     }
   }
@@ -762,8 +1221,12 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
+        UserActivity {
+          nextToken
+          __typename
+        }
         roomtopicID
-        ChatRoomVotes {
+        Votes {
           nextToken
           __typename
         }
@@ -826,8 +1289,12 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
+        UserActivity {
+          nextToken
+          __typename
+        }
         roomtopicID
-        ChatRoomVotes {
+        Votes {
           nextToken
           __typename
         }
@@ -890,8 +1357,12 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
+        UserActivity {
+          nextToken
+          __typename
+        }
         roomtopicID
-        ChatRoomVotes {
+        Votes {
           nextToken
           __typename
         }

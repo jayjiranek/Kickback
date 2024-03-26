@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     paddingLeft: SIZES.medium,
   },
   sectionTitleText: {
-    color: COLORS.white,
-    fontFamily: FONT.discoverHeader,
-    fontSize: SIZES.xLarge,
+    color: COLORS.lightWhite,
+    fontFamily: FONT.bold,
+    fontSize: SIZES.medium + 2,
   },
 });

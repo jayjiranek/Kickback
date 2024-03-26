@@ -14,80 +14,76 @@ import ChatNotificationsIcon from "./ChatNotificationsIcon";
 
 /// need to import handle nav later
 const ChatListCard = ({ chat }) => {
-	const [user, setUser] = useState(null);
-	const [chatRoom, setChatRoom] = useState(chat);
+  const [user, setUser] = useState(null);
+  const [chatRoom, setChatRoom] = useState(chat);
 
-	// llop through chat.users.items and find a user that is not us
+  // llop through chat.users.items and find a user that is not us
 
-	// fetch the chat room
-	useEffect(() => {
-		const subscription = (
-			API.graphql(
-				graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chat.id } } })
-			) as any
-		).subscribe({
-			next: ({ value }) => {
-				setChatRoom((cr) => ({
-					...(cr || {}),
-					...value.data.onUpdateChatRoom,
-				}));
-			},
-			error: (err) => console.warn(err),
-		});
+  // fetch the chat room
+  useEffect(() => {
+    const subscription = (
+      API.graphql(
+        graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chat.id } } })
+      ) as any
+    ).subscribe({
+      next: ({ value }) => {
+        setChatRoom((cr) => ({
+          ...(cr || {}),
+          ...value.data.onUpdateChatRoom,
+        }));
+      },
+      error: (err) => console.warn(err),
+    });
 
-		return () => subscription.unsubscribe();
-	}, [chat.id]);
+    return () => subscription.unsubscribe();
+  }, [chat.id]);
 
-	const handleChatPress = () => {
-		router.push({
-			pathname: "/chat/[id]",
-			params: { id: chatRoom.id, name: chatRoom.chatName },
-		});
-	};
+  const handleChatPress = () => {
+    router.push({
+      pathname: "home/chat/[id]",
+      params: {
+        id: chatRoom.id,
+        name: chatRoom.chatName,
+        roomtopicID: chatRoom.roomtopicID,
+      },
+    });
+  };
 
-	return (
-		<Pressable
-			style={styles.container}
-			onPress={handleChatPress}
-		>
-			<View style={styles.chatImageContainer}>
-				<Image
-					source={{ uri: chatRoom.chatImage }}
-					resizeMode='cover'
-					style={styles.chatImage}
-				/>
-			</View>
+  return (
+    <Pressable style={styles.container} onPress={handleChatPress}>
+      <View style={styles.chatImageContainer}>
+        <Image
+          source={{ uri: chatRoom.chatImage }}
+          resizeMode="cover"
+          style={styles.chatImage}
+        />
+      </View>
 
-			<View style={styles.nameAndMessageContainer}>
-				<Text
-					style={styles.chatName}
-					numberOfLines={1}
-					ellipsizeMode='tail'
-				>
-					kb/{chatRoom.chatName}
-				</Text>
-				<Text
-					style={styles.lastChatMessage}
-					numberOfLines={2}
-					ellipsizeMode='tail'
-				>
-					{chatRoom.LastMessage?.text}
-				</Text>
-			</View>
+      <View style={styles.nameAndMessageContainer}>
+        <Text style={styles.chatName} numberOfLines={1} ellipsizeMode="tail">
+          kb/{chatRoom.chatName}
+        </Text>
+        <Text
+          style={styles.lastChatMessage}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
+          {chatRoom.LastMessage?.text}
+        </Text>
+      </View>
 
-			<View style={styles.dateAndNotificationsContainer}>
-				<Text style={styles.dateText}>
-					{dayjs(chatRoom.LastMessage?.createdAt).calendar(null, {
-						sameDay: "h:mm A",
-						lastDay: "[Yesterday]",
-						lastWeek: "dddd",
-					})}
-				</Text>
-
-				<ChatNotificationsIcon numUnreadMessages={1} />
-			</View>
-		</Pressable>
-	);
+      <View style={styles.dateAndNotificationsContainer}>
+        <Text style={styles.dateText}>
+          {dayjs(chatRoom.LastMessage?.createdAt).calendar(null, {
+            sameDay: "h:mm A",
+            lastDay: "[Yesterday]",
+            lastWeek: "dddd",
+            sameElse: "MM/DD/YY",
+          })}
+        </Text>
+      </View>
+    </Pressable>
+  );
 };
 
 export default ChatListCard;

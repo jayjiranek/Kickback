@@ -19,7 +19,7 @@ const SpotlightGroupCard = ({ topic }) => {
   const [category, setCategory] = useState(topic);
   const handleCategoryPress = () => {
     router.push({
-      pathname: "/category",
+      pathname: "discover/category",
       params: {
         id: topic.id,
         name: topic.categoryName,
@@ -54,7 +54,9 @@ const SpotlightGroupCard = ({ topic }) => {
 
         <View style={styles.topicTitleAndCountContainer}>
           <Text style={styles.topicTitleText}>{topic.categoryName}</Text>
-          <Text style={styles.countText}>23 chats</Text>
+          <Text style={styles.countText}>
+            {topic.categoryGroupsCount} members
+          </Text>
         </View>
 
         <View style={styles.buttonContainer}>

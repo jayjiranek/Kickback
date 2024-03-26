@@ -80,6 +80,16 @@
     }
   },
   "function": {
+    "kbFindChatRoomForUserWithRoomTopic": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "kickbackHandleUserVote": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "kickbackPostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -87,6 +97,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_kbFindChatRoomForUserWithRoomTopic_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kbFindChatRoomForUserWithRoomTopic"
+        }
+      ]
+    },
+    "AMPLIFY_function_kbFindChatRoomForUserWithRoomTopic_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kbFindChatRoomForUserWithRoomTopic"
+        }
+      ]
+    },
+    "AMPLIFY_function_kickbackHandleUserVote_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kickbackHandleUserVote"
+        }
+      ]
+    },
+    "AMPLIFY_function_kickbackHandleUserVote_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kickbackHandleUserVote"
+        }
+      ]
+    },
     "AMPLIFY_function_kickbackPostConfirmation_deploymentBucketName": {
       "usedBy": [
         {

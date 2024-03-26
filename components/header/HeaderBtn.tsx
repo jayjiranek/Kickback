@@ -9,7 +9,7 @@ import { COLORS } from "../../constants";
 const ScreenHeaderBtn = ({ iconName, handlePress }) => {
   return (
     <TouchableOpacity style={styles.btnContainer} onPress={handlePress}>
-      <Ionicons name={iconName} size={28} color={COLORS.tertiary} />
+      <Ionicons name={iconName} size={28} color={COLORS.lightWhite} />
     </TouchableOpacity>
   );
 };

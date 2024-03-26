@@ -21,6 +21,20 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "kbFindChatRoomForUserWithRoomTopic": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "kickbackHandleUserVote": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "kickbackPostConfirmation": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

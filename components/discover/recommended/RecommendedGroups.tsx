@@ -113,7 +113,7 @@ export default RecommendedGroups;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginVertical: SIZES.small,
+    marginVertical: SIZES.medium,
   },
   cardsContainer: {
     marginTop: SIZES.xSmall,

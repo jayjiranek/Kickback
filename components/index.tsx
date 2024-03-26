@@ -7,9 +7,21 @@ import ScreenHeaderBtn from "./header/HeaderBtn";
 import ChatListSearch from "./home/chat-list-search/ChatListSearch";
 import Tabs from "./home/tabs/Tabs";
 import ChatList from "./home/chat-list/ChatList";
+import ChatInfoHeaderButton from "./chat/chat-information/ChatInfoHeaderButton";
+import CreateVoteMenu from "./chat/chat-information/CreateVoteMenu";
+import ChatActivity from "./chat/chat-activity/ChatActivity";
+import BreakingNewsAlert from "./chat/breaking-news-alert/BreakingNewsAlert";
+import OnlineArticleLink from "./common/OnlineArticleLink";
+import CreateVoteCheckbox from "./chat/create-vote-checkbox/CreateVoteCheckbox";
 
 // discover
 import KickbackSpotlight from "./discover/kickback-spotlight/KickbackSpotlight";
+import RoomTopicCard from "./cards/discover/RoomTopicCard";
+import FeaturedGroupModalCard from "./cards/discover/FeaturedGroupModalCard";
+
+// search
+import SearchHeader from "./search/SearchHeader";
+import SearchTabs from "./search/SearchTabs";
 
 //account
 import AccountOptions from "./account/account-options/AccountOptions";
@@ -24,6 +36,8 @@ export {
   ScreenHeaderBtn,
   ChatListSearch,
   ChatList,
+  ChatInfoHeaderButton,
+  CreateVoteMenu,
   Tabs,
   KickbackSpotlight,
   RecommendedGroups,
@@ -31,4 +45,11 @@ export {
   TopCharts,
   AccountOptions,
   AccountHeader,
+  RoomTopicCard,
+  FeaturedGroupModalCard,
+  SearchHeader,
+  SearchTabs,
+  BreakingNewsAlert,
+  OnlineArticleLink,
+  CreateVoteCheckbox,
 };

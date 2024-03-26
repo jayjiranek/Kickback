@@ -61,72 +61,6 @@ export const deleteAttachment = /* GraphQL */ `
     }
   }
 `;
-export const createChatRoomVote = /* GraphQL */ `
-  mutation CreateChatRoomVote(
-    $input: CreateChatRoomVoteInput!
-    $condition: ModelChatRoomVoteConditionInput
-  ) {
-    createChatRoomVote(input: $input, condition: $condition) {
-      id
-      voteType
-      createdAt
-      expiresAt
-      voteCreatedBy
-      userToBeRemoved
-      newChatTitle
-      newChatImage
-      numVotes
-      numVotesNeeded
-      chatroomID
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateChatRoomVote = /* GraphQL */ `
-  mutation UpdateChatRoomVote(
-    $input: UpdateChatRoomVoteInput!
-    $condition: ModelChatRoomVoteConditionInput
-  ) {
-    updateChatRoomVote(input: $input, condition: $condition) {
-      id
-      voteType
-      createdAt
-      expiresAt
-      voteCreatedBy
-      userToBeRemoved
-      newChatTitle
-      newChatImage
-      numVotes
-      numVotesNeeded
-      chatroomID
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteChatRoomVote = /* GraphQL */ `
-  mutation DeleteChatRoomVote(
-    $input: DeleteChatRoomVoteInput!
-    $condition: ModelChatRoomVoteConditionInput
-  ) {
-    deleteChatRoomVote(input: $input, condition: $condition) {
-      id
-      voteType
-      createdAt
-      expiresAt
-      voteCreatedBy
-      userToBeRemoved
-      newChatTitle
-      newChatImage
-      numVotes
-      numVotesNeeded
-      chatroomID
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const createCategory = /* GraphQL */ `
   mutation CreateCategory(
     $input: CreateCategoryInput!
@@ -139,12 +73,16 @@ export const createCategory = /* GraphQL */ `
       categoryLongDescription
       categoryAvatarImage
       categoryBannerImage
+      categoryGroupsCount
       RoomTopics {
         items {
           id
           topicName
           categoryID
           topicAvatarImage
+          topicDescription
+          defaultTopicChatName
+          countGroupsNumber
           createdAt
           updatedAt
           __typename
@@ -170,12 +108,16 @@ export const updateCategory = /* GraphQL */ `
       categoryLongDescription
       categoryAvatarImage
       categoryBannerImage
+      categoryGroupsCount
       RoomTopics {
         items {
           id
           topicName
           categoryID
           topicAvatarImage
+          topicDescription
+          defaultTopicChatName
+          countGroupsNumber
           createdAt
           updatedAt
           __typename
@@ -201,12 +143,16 @@ export const deleteCategory = /* GraphQL */ `
       categoryLongDescription
       categoryAvatarImage
       categoryBannerImage
+      categoryGroupsCount
       RoomTopics {
         items {
           id
           topicName
           categoryID
           topicAvatarImage
+          topicDescription
+          defaultTopicChatName
+          countGroupsNumber
           createdAt
           updatedAt
           __typename
@@ -230,6 +176,9 @@ export const createRoomTopic = /* GraphQL */ `
       topicName
       categoryID
       topicAvatarImage
+      topicDescription
+      defaultTopicChatName
+      countGroupsNumber
       ChatRooms {
         items {
           id
@@ -241,6 +190,19 @@ export const createRoomTopic = /* GraphQL */ `
           createdAt
           updatedAt
           chatRoomLastMessageId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      BreakingNewsAlerts {
+        items {
+          id
+          text
+          createdAt
+          articleLink
+          roomtopicID
+          updatedAt
           __typename
         }
         nextToken
@@ -262,6 +224,9 @@ export const updateRoomTopic = /* GraphQL */ `
       topicName
       categoryID
       topicAvatarImage
+      topicDescription
+      defaultTopicChatName
+      countGroupsNumber
       ChatRooms {
         items {
           id
@@ -273,6 +238,19 @@ export const updateRoomTopic = /* GraphQL */ `
           createdAt
           updatedAt
           chatRoomLastMessageId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      BreakingNewsAlerts {
+        items {
+          id
+          text
+          createdAt
+          articleLink
+          roomtopicID
+          updatedAt
           __typename
         }
         nextToken
@@ -294,6 +272,9 @@ export const deleteRoomTopic = /* GraphQL */ `
       topicName
       categoryID
       topicAvatarImage
+      topicDescription
+      defaultTopicChatName
+      countGroupsNumber
       ChatRooms {
         items {
           id
@@ -305,6 +286,19 @@ export const deleteRoomTopic = /* GraphQL */ `
           createdAt
           updatedAt
           chatRoomLastMessageId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      BreakingNewsAlerts {
+        items {
+          id
+          text
+          createdAt
+          articleLink
+          roomtopicID
+          updatedAt
           __typename
         }
         nextToken
@@ -367,21 +361,35 @@ export const createChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
+      UserActivity {
+        items {
+          id
+          createdAt
+          chatroomID
+          activityType
+          updatedAt
+          userChatActivityUserIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
       roomtopicID
-      ChatRoomVotes {
+      Votes {
         items {
           id
           voteType
           createdAt
           expiresAt
-          voteCreatedBy
-          userToBeRemoved
           newChatTitle
           newChatImage
-          numVotes
-          numVotesNeeded
+          numYesVotesNeeded
+          numYesVotes
+          numNoVotes
           chatroomID
           updatedAt
+          voteVoteCreationUserId
+          voteUserToBeRemovedId
           __typename
         }
         nextToken
@@ -445,21 +453,35 @@ export const updateChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
+      UserActivity {
+        items {
+          id
+          createdAt
+          chatroomID
+          activityType
+          updatedAt
+          userChatActivityUserIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
       roomtopicID
-      ChatRoomVotes {
+      Votes {
         items {
           id
           voteType
           createdAt
           expiresAt
-          voteCreatedBy
-          userToBeRemoved
           newChatTitle
           newChatImage
-          numVotes
-          numVotesNeeded
+          numYesVotesNeeded
+          numYesVotes
+          numNoVotes
           chatroomID
           updatedAt
+          voteVoteCreationUserId
+          voteUserToBeRemovedId
           __typename
         }
         nextToken
@@ -523,21 +545,35 @@ export const deleteChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
+      UserActivity {
+        items {
+          id
+          createdAt
+          chatroomID
+          activityType
+          updatedAt
+          userChatActivityUserIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
       roomtopicID
-      ChatRoomVotes {
+      Votes {
         items {
           id
           voteType
           createdAt
           expiresAt
-          voteCreatedBy
-          userToBeRemoved
           newChatTitle
           newChatImage
-          numVotes
-          numVotesNeeded
+          numYesVotesNeeded
+          numYesVotes
+          numNoVotes
           chatroomID
           updatedAt
+          voteVoteCreationUserId
+          voteUserToBeRemovedId
           __typename
         }
         nextToken
@@ -648,6 +684,450 @@ export const deleteMessage = /* GraphQL */ `
         __typename
       }
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createBreakingNewAlert = /* GraphQL */ `
+  mutation CreateBreakingNewAlert(
+    $input: CreateBreakingNewAlertInput!
+    $condition: ModelBreakingNewAlertConditionInput
+  ) {
+    createBreakingNewAlert(input: $input, condition: $condition) {
+      id
+      text
+      createdAt
+      articleLink
+      roomtopicID
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateBreakingNewAlert = /* GraphQL */ `
+  mutation UpdateBreakingNewAlert(
+    $input: UpdateBreakingNewAlertInput!
+    $condition: ModelBreakingNewAlertConditionInput
+  ) {
+    updateBreakingNewAlert(input: $input, condition: $condition) {
+      id
+      text
+      createdAt
+      articleLink
+      roomtopicID
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteBreakingNewAlert = /* GraphQL */ `
+  mutation DeleteBreakingNewAlert(
+    $input: DeleteBreakingNewAlertInput!
+    $condition: ModelBreakingNewAlertConditionInput
+  ) {
+    deleteBreakingNewAlert(input: $input, condition: $condition) {
+      id
+      text
+      createdAt
+      articleLink
+      roomtopicID
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createVote = /* GraphQL */ `
+  mutation CreateVote(
+    $input: CreateVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    createVote(input: $input, condition: $condition) {
+      id
+      voteType
+      createdAt
+      expiresAt
+      voteCreationUser {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      userToBeRemoved {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      newChatTitle
+      newChatImage
+      numYesVotesNeeded
+      numYesVotes
+      numNoVotes
+      chatroomID
+      userVotes {
+        items {
+          id
+          createdAt
+          voteID
+          userVoteDecision
+          updatedAt
+          userVoteUserVoterIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      updatedAt
+      voteVoteCreationUserId
+      voteUserToBeRemovedId
+      __typename
+    }
+  }
+`;
+export const updateVote = /* GraphQL */ `
+  mutation UpdateVote(
+    $input: UpdateVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    updateVote(input: $input, condition: $condition) {
+      id
+      voteType
+      createdAt
+      expiresAt
+      voteCreationUser {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      userToBeRemoved {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      newChatTitle
+      newChatImage
+      numYesVotesNeeded
+      numYesVotes
+      numNoVotes
+      chatroomID
+      userVotes {
+        items {
+          id
+          createdAt
+          voteID
+          userVoteDecision
+          updatedAt
+          userVoteUserVoterIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      updatedAt
+      voteVoteCreationUserId
+      voteUserToBeRemovedId
+      __typename
+    }
+  }
+`;
+export const deleteVote = /* GraphQL */ `
+  mutation DeleteVote(
+    $input: DeleteVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    deleteVote(input: $input, condition: $condition) {
+      id
+      voteType
+      createdAt
+      expiresAt
+      voteCreationUser {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      userToBeRemoved {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      newChatTitle
+      newChatImage
+      numYesVotesNeeded
+      numYesVotes
+      numNoVotes
+      chatroomID
+      userVotes {
+        items {
+          id
+          createdAt
+          voteID
+          userVoteDecision
+          updatedAt
+          userVoteUserVoterIDId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      updatedAt
+      voteVoteCreationUserId
+      voteUserToBeRemovedId
+      __typename
+    }
+  }
+`;
+export const createUserVote = /* GraphQL */ `
+  mutation CreateUserVote(
+    $input: CreateUserVoteInput!
+    $condition: ModelUserVoteConditionInput
+  ) {
+    createUserVote(input: $input, condition: $condition) {
+      id
+      createdAt
+      voteID
+      userVoteDecision
+      userVoterID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      updatedAt
+      userVoteUserVoterIDId
+      __typename
+    }
+  }
+`;
+export const updateUserVote = /* GraphQL */ `
+  mutation UpdateUserVote(
+    $input: UpdateUserVoteInput!
+    $condition: ModelUserVoteConditionInput
+  ) {
+    updateUserVote(input: $input, condition: $condition) {
+      id
+      createdAt
+      voteID
+      userVoteDecision
+      userVoterID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      updatedAt
+      userVoteUserVoterIDId
+      __typename
+    }
+  }
+`;
+export const deleteUserVote = /* GraphQL */ `
+  mutation DeleteUserVote(
+    $input: DeleteUserVoteInput!
+    $condition: ModelUserVoteConditionInput
+  ) {
+    deleteUserVote(input: $input, condition: $condition) {
+      id
+      createdAt
+      voteID
+      userVoteDecision
+      userVoterID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      updatedAt
+      userVoteUserVoterIDId
+      __typename
+    }
+  }
+`;
+export const createUserChatActivity = /* GraphQL */ `
+  mutation CreateUserChatActivity(
+    $input: CreateUserChatActivityInput!
+    $condition: ModelUserChatActivityConditionInput
+  ) {
+    createUserChatActivity(input: $input, condition: $condition) {
+      id
+      createdAt
+      chatroomID
+      userID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      activityType
+      updatedAt
+      userChatActivityUserIDId
+      __typename
+    }
+  }
+`;
+export const updateUserChatActivity = /* GraphQL */ `
+  mutation UpdateUserChatActivity(
+    $input: UpdateUserChatActivityInput!
+    $condition: ModelUserChatActivityConditionInput
+  ) {
+    updateUserChatActivity(input: $input, condition: $condition) {
+      id
+      createdAt
+      chatroomID
+      userID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      activityType
+      updatedAt
+      userChatActivityUserIDId
+      __typename
+    }
+  }
+`;
+export const deleteUserChatActivity = /* GraphQL */ `
+  mutation DeleteUserChatActivity(
+    $input: DeleteUserChatActivityInput!
+    $condition: ModelUserChatActivityConditionInput
+  ) {
+    deleteUserChatActivity(input: $input, condition: $condition) {
+      id
+      createdAt
+      chatroomID
+      userID {
+        id
+        username
+        profileImage
+        ChatRooms {
+          nextToken
+          __typename
+        }
+        Messages {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      activityType
+      updatedAt
+      userChatActivityUserIDId
       __typename
     }
   }
@@ -808,8 +1288,12 @@ export const createUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
+        UserActivity {
+          nextToken
+          __typename
+        }
         roomtopicID
-        ChatRoomVotes {
+        Votes {
           nextToken
           __typename
         }
@@ -873,8 +1357,12 @@ export const updateUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
+        UserActivity {
+          nextToken
+          __typename
+        }
         roomtopicID
-        ChatRoomVotes {
+        Votes {
           nextToken
           __typename
         }
@@ -938,8 +1426,12 @@ export const deleteUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
+        UserActivity {
+          nextToken
+          __typename
+        }
         roomtopicID
-        ChatRoomVotes {
+        Votes {
           nextToken
           __typename
         }

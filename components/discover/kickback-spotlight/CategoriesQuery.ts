@@ -3,6 +3,7 @@ export const listCategories = /* GraphQL */ `
     listCategories {
       items {
         id
+        categoryGroupsCount
         categoryName
         categoryShortDescription
         categoryLongDescription

@@ -14,20 +14,6 @@ type Attachment @model @auth(rules: [{ allow: public }]) {
   chatroomID: ID! @index(name: "byChatRoom")
 }
 
-type ChatRoomVote @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  voteType: String!
-  createdAt: AWSDateTime!
-  expiresAt: AWSDateTime!
-  voteCreatedBy: [String!]!
-  userToBeRemoved: String
-  newChatTitle: String
-  newChatImage: AWSURL
-  numVotes: Int
-  numVotesNeeded: Int
-  chatroomID: ID! @index(name: "byChatRoom")
-}
-
 type Category @model @auth(rules: [{ allow: public }]) {
   id: ID!
   categoryName: String!
@@ -35,6 +21,7 @@ type Category @model @auth(rules: [{ allow: public }]) {
   categoryLongDescription: String!
   categoryAvatarImage: String!
   categoryBannerImage: String!
+  categoryGroupsCount: Int
   RoomTopics: [RoomTopic] @hasMany(indexName: "byRoomCategory", fields: ["id"])
 }
 
@@ -43,7 +30,12 @@ type RoomTopic @model @auth(rules: [{ allow: public }]) {
   topicName: String!
   categoryID: ID! @index(name: "byRoomCategory")
   topicAvatarImage: String!
+  topicDescription: String!
+  defaultTopicChatName: String!
+  countGroupsNumber: Int
   ChatRooms: [ChatRoom] @hasMany(indexName: "byRoomTopic", fields: ["id"])
+  BreakingNewsAlerts: [BreakingNewAlert]
+    @hasMany(indexName: "byRoomTopic", fields: ["id"])
 }
 
 type ChatRoom @model @auth(rules: [{ allow: public }]) {
@@ -55,9 +47,10 @@ type ChatRoom @model @auth(rules: [{ allow: public }]) {
   numMembers: Int
   maxNumMembers: String
   Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
-  roomtopicID: ID! @index(name: "byRoomTopic")
-  ChatRoomVotes: [ChatRoomVote]
+  UserActivity: [UserChatActivity]
     @hasMany(indexName: "byChatRoom", fields: ["id"])
+  roomtopicID: ID! @index(name: "byRoomTopic")
+  Votes: [Vote] @hasMany(indexName: "byChatRoom", fields: ["id"])
 }
 
 type Message @model @auth(rules: [{ allow: public }]) {
@@ -73,6 +66,72 @@ type Message @model @auth(rules: [{ allow: public }]) {
     )
   images: [String]
   Attachments: [Attachment] @hasMany(indexName: "byMessage", fields: ["id"])
+}
+
+type BreakingNewAlert @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  text: String!
+  createdAt: AWSDateTime
+  articleLink: AWSURL
+  roomtopicID: ID!
+    @index(
+      name: "byRoomTopic"
+      sortKeyFields: ["createdAt"]
+      queryField: "listBreakingNewsAlertsByRoomTopic"
+    )
+}
+
+enum ChatRoomVoteType {
+  REMOVEUSER
+  CHANGETITLE
+  CHANGEPICTURE
+}
+
+type Vote @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  voteType: ChatRoomVoteType!
+  createdAt: AWSDateTime!
+  expiresAt: AWSDateTime!
+  voteCreationUser: User @hasOne
+  userToBeRemoved: User @hasOne
+  newChatTitle: String
+  newChatImage: String
+  numYesVotesNeeded: Int!
+  numYesVotes: Int!
+  numNoVotes: Int!
+  chatroomID: ID!
+    @index(
+      name: "byChatRoom"
+      sortKeyFields: ["createdAt"]
+      queryField: "listVotesByChatRoom"
+    )
+  userVotes: [UserVote] @hasMany(indexName: "byVote", fields: ["id"])
+}
+
+type UserVote @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  voteID: ID!
+    @index(
+      name: "byVote"
+      sortKeyFields: ["createdAt"]
+      queryField: "listUserVotesByVote"
+    )
+  userVoteDecision: String!
+  userVoterID: User @hasOne
+}
+
+type UserChatActivity @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  chatroomID: ID!
+    @index(
+      name: "byChatRoom"
+      sortKeyFields: ["createdAt"]
+      queryField: "listUserActivityByChatRoom"
+    )
+  userID: User @hasOne
+  activityType: String!
 }
 
 type User @model @auth(rules: [{ allow: public }]) {
