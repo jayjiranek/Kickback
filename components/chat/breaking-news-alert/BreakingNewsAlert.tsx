@@ -12,7 +12,7 @@ const BreakingNewsAlert = ({ alert }) => {
     <View style={{ flexDirection: "row" }}>
       <View style={styles.senderImageContainer}>
         <Image
-          source={{ uri: imageURL }}
+          source={require("../../../assets/images/breaking-news-avatar.png")}
           style={styles.senderImage}
           resizeMode="cover"
         />
@@ -55,13 +55,13 @@ const styles = StyleSheet.create({
   messageTextContainer: {
     borderRadius: SIZES.medium,
     borderWidth: 0.5,
-    borderColor: COLORS.primary,
+    borderColor: COLORS.yellow,
     backgroundColor: COLORS.grey,
     paddingHorizontal: SIZES.small,
   },
   headerText: {
     fontFamily: FONT.discoverHeader,
-    color: COLORS.primary,
+    color: COLORS.yellow,
     fontSize: SIZES.large,
     marginBottom: 2,
     marginLeft: SIZES.small,

@@ -70,9 +70,48 @@ const CreateVoteModal = () => {
           />
 
           <View style={styles.btnContainer}>
-            <Pressable style={styles.nextButton} onPress={() => {}}>
-              <Text style={styles.buttonText}>NEXT</Text>
-            </Pressable>
+            {isSelected ? (
+              <Pressable
+                style={[
+                  styles.nextButton,
+                  {
+                    backgroundColor: COLORS.primary,
+                  },
+                ]}
+                onPress={() => {}}
+              >
+                <Text
+                  style={[
+                    styles.buttonText,
+                    {
+                      color: COLORS.lightWhite,
+                    },
+                  ]}
+                >
+                  NEXT
+                </Text>
+              </Pressable>
+            ) : (
+              <View
+                style={[
+                  styles.nextButton,
+                  {
+                    backgroundColor: COLORS.darkDetailsBackground,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.buttonText,
+                    {
+                      color: COLORS.lightGrey,
+                    },
+                  ]}
+                >
+                  NEXT
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -153,7 +192,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: FONT.bold,
     fontSize: SIZES.medium,
-    color: COLORS.lightGrey,
     marginHorizontal: SIZES.xSmall - 4,
   },
 });

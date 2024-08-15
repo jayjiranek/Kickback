@@ -9,8 +9,8 @@ const COLORS = {
   black: "#121212",
   black2: "#0D0D0D",
 
-  darkBackground: "#212121",
-  darkDetailsBackground: "#2d2d30",
+  darkBackground: "#1F1E1E",
+  darkDetailsBackground: "#3e3e42",
   darkerBackground: "#252526",
 
   placeholder: "#7852A9",
@@ -24,6 +24,7 @@ const COLORS = {
 
   green: "#33B864",
   red: "#ED2939",
+  yellow: "#FFC300",
 };
 
 const FONT = {
